@@ -18,18 +18,17 @@ This project is a **Smart Data Analyzer tool** built with **Streamlit** and **Pl
 ## 📥 Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/smahsan053/Smart-Data-Analyzer.git
+   cd Smart-Data-Analyzer
    ```
 2. Create a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On macOS/Linux
-   venv\Scripts\activate  # On Windows
+   uv venv
+   source .venv/Scripts/activate
    ```
 3. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   uv pip install -r requirements.txt
    ```
 4. Run the Streamlit app:
    ```bash
@@ -41,7 +40,6 @@ This project is a **Smart Data Analyzer tool** built with **Streamlit** and **Pl
 📦 Project Root
 ├── 📜 app.py  # Main application file
 ├── 📜 requirements.txt  # Dependencies
-├── 📂 data  # Sample datasets (if any)
 └── 📜 README.md  # Project documentation
 ```
 
@@ -65,7 +63,7 @@ This project is licensed under the **MIT License**.
 Pull requests are welcome! If you have suggestions or improvements, feel free to open an issue.
 
 ## 📧 Contact
-For questions, reach out to **your-email@example.com** or visit [GitHub](https://github.com/your-username).
+For questions, reach out to **syedmahsan053@gmail.com** or visit [GitHub](https://github.com/smahsan053).
 
 Happy Visualizing! 🎉
 
