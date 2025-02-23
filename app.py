@@ -21,7 +21,6 @@ def process_file(uploaded_file):
             st.error("Unsupported file format")
             return None
         
-        # Auto-convert potential numeric columns
         for col in df.columns:
             if is_object_dtype(df[col]):
                 try:
@@ -36,7 +35,6 @@ def process_file(uploaded_file):
         return None
 
 def analyze_data(df):
-    # Detect column types
     date_cols = [col for col in df.columns if is_datetime64_any_dtype(df[col])]
     numeric_cols = [col for col in df.columns if is_numeric_dtype(df[col])]
     cat_cols = [col for col in df.columns if is_categorical_dtype(df[col]) or 
@@ -47,11 +45,9 @@ def analyze_data(df):
 def create_visualizations(df, date_cols, numeric_cols, cat_cols):
     st.header("📊 Custom Visualization Builder")
     
-    # Create two main columns
     config_col, viz_col = st.columns([1, 3])
     
     with config_col:
-        # Chart type selection
         chart_type = st.selectbox(
             "Select Chart Type",
             ["Scatter", "Line", "Bar", "Histogram", 
@@ -59,14 +55,12 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
              "Bubble", "Parallel Categories"]
         )
         
-        # X-axis selection
         x_axis = st.selectbox(
             "X-axis",
             df.columns,
             index=0
         )
         
-        # Y-axis selection (conditional)
         y_axis = None
         if chart_type not in ["Histogram", "Heatmap", "Parallel Categories"]:
             y_axis = st.selectbox(
@@ -75,7 +69,6 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
                 index=min(1, len(df.columns)-1)
             )
         
-        # Additional dimensions
         color_dim = st.selectbox(
             "Color by (optional)",
             ["None"] + list(df.columns)
@@ -88,7 +81,6 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
                 ["None"] + numeric_cols
             )
         
-        # 3D dimension
         z_axis = None
         if chart_type == "3D Scatter":
             z_axis = st.selectbox(
@@ -96,7 +88,6 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
                 numeric_cols
             )
         
-        # Aggregation control
         aggregation = "raw"
         if chart_type in ["Line", "Bar"] and not is_numeric_dtype(df[x_axis]):
             aggregation = st.selectbox(
@@ -104,17 +95,14 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
                 ["count", "sum", "mean", "median"]
             )
         
-        # Histogram controls
         nbins = 20
         if chart_type == "Histogram":
             nbins = st.slider("Number of bins", 5, 100, 20)
         
-        # Bubble controls
         size_max = 50
         if chart_type == "Bubble":
             size_max = st.slider("Max bubble size", 10, 100, 50)
         
-        # Color scale selection
         color_scale = st.selectbox(
             "Color Scale",
             px.colors.named_colorscales(),
@@ -123,10 +111,8 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
     
     with viz_col:
         try:
-            # Prepare base figure
             fig = None
             
-            # Handle different chart types
             if chart_type == "Scatter":
                 fig = px.scatter(
                     df,
@@ -244,7 +230,6 @@ def create_visualizations(df, date_cols, numeric_cols, cat_cols):
                     color_continuous_scale=color_scale
                 )
             
-            # Update layout
             if fig:
                 fig.update_layout(
                     height=600,
@@ -281,7 +266,6 @@ def main():
             
             create_visualizations(df, date_cols, numeric_cols, cat_cols)
             
-            # Export options
             st.download_button("Download Analysis Report",
                               data=df.describe(include='all').to_csv(),
                               file_name="data_report.csv")
